@@ -8,6 +8,7 @@
 
 /**
  * Find the Symmetric Difference
+ * @author Mike Mai
  * @param {number[]} - accept any number of array
  * @return {number[]}
  *
