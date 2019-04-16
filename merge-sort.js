@@ -23,28 +23,54 @@ function mergeSort(arr) {
   const left = mergeSort(arr.slice(0, mid));
   const right = mergeSort(arr.slice(mid));
 
-  let i = 0;
-  let j = 0;
-  let sorted = [];
+  return merge(left, right);
+}
 
-  while (i < left.length && j < right.length) {
-    if (left[i] < right[j]) {
-      sorted.push(left[i++]);
+function merge(left, right) {
+  const arr = [];
+
+  while (left.length && right.length) {
+    if (left[0] < right[0]) {
+      arr.push(left.shift());
     } else {
-      sorted.push(right[j++]);
+      arr.push(right.shift());
     }
   }
 
-  while (i < left.length) {
-    sorted.push(left[i++]);
-  }
-
-  while (j < right.length) {
-    sorted.push(right[j++]);
-  }
-
-  return sorted;
+  return arr.concat(left).concat(right);
 }
+
+// function mergeSort(arr) {
+//   if (arr.length <= 1) {
+//     return arr;
+//   }
+
+//   const mid = Math.floor(arr.length / 2);
+//   const left = mergeSort(arr.slice(0, mid));
+//   const right = mergeSort(arr.slice(mid));
+
+//   let i = 0;
+//   let j = 0;
+//   let sorted = [];
+
+//   while (i < left.length && j < right.length) {
+//     if (left[i] < right[j]) {
+//       sorted.push(left[i++]);
+//     } else {
+//       sorted.push(right[j++]);
+//     }
+//   }
+
+//   while (i < left.length) {
+//     sorted.push(left[i++]);
+//   }
+
+//   while (j < right.length) {
+//     sorted.push(right[j++]);
+//   }
+
+//   return sorted;
+// }
 
 console.log(mergeSort([1, 4, 2, 8, 345, 123, 43, 32, 5643, 63, 123, 43, 2, 55, 1, 234, 92]));
 console.log(mergeSort([1, 4, 2, 8, 345, 3]));

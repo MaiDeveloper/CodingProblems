@@ -34,33 +34,56 @@ function pivot(array, left = 0, right = array.length - 1) {
   return shift;
 }
 
-// function partition(array, left, right) {
-//   let pivot = array[Math.floor((left + right) / 2)];
-
-//   while (left <= right) {
-
-//     while (array[left] < pivot) {
-//       left++;
-//     }
-
-//     while (array[right] > pivot) {
-//       right--;
-//     }
-
-//     if (left <= right) {
-//       swap(array, left, right);
-//       left++;
-//       right--;
-//     }
-
-//   }
-
-//   return left;
-// }
-
 function swap(arr, i, j) {
   [arr[i], arr[j]] = [arr[j], arr[i]];
 }
 
-console.log(quickSort([1, 4, 2, 8, 345, 123, 43, 32, 5643, 63, 123, 43, 2, 55, 1, 234, 92]));
+function quick_sort(arr) {
+  if (arr.length <= 1) {
+    return arr;
+  }
 
+  const pivot = arr[0];
+  const leftSide = arr.slice(1).filter(v => v < pivot);
+  const rightSide = arr.slice(1).filter(v => v >= pivot);
+
+  return quick_sort(leftSide).concat([pivot]).concat(quick_sort(rightSide));
+}
+
+function merge_sort(arr) {
+  if (arr.length <= 1) {
+    return arr;
+  }
+
+  const mid = Math.floor(arr.length / 2);
+  const left = merge_sort(arr.slice(0, mid));
+  const right = merge_sort(arr.slice(mid));
+
+  return merge(left, right);
+}
+
+function merge(left, right) {
+  const arr = [];
+
+  while (left.length && right.length) {
+    if (left[0] < right[0]) {
+      arr.push(left.shift());
+    } else {
+      arr.push(right.shift());
+    }
+  }
+
+  return arr.concat(left).concat(right);
+}
+
+console.time('quickSort');
+quickSort([1, 9, 2, 12, 32, 132, 5454, 23543, 234, 2342, 234, 24, 34,5 ,5, 6, 6,4, 2, 8, 345, 123, 43, 32, 5643, 63, 123, 43, 2, 55, 1, 234, 92]);
+console.timeEnd('quickSort');
+
+console.time('quick_sort');
+quick_sort([1, 9, 2, 12, 32, 132, 5454, 23543, 234, 2342, 234, 24, 34,5 ,5, 6, 6,4, 2, 8, 345, 123, 43, 32, 5643, 63, 123, 43, 2, 55, 1, 234, 92]);
+console.timeEnd('quick_sort');
+
+console.time('merge_sort');
+merge_sort([1, 9, 2, 12, 32, 132, 5454, 23543, 234, 2342, 234, 24, 34,5 ,5, 6, 6,4, 2, 8, 345, 123, 43, 32, 5643, 63, 123, 43, 2, 55, 1, 234, 92]);
+console.timeEnd('merge_sort');
