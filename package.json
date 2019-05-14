@@ -1,0 +1,23 @@
+{
+  "name": "codingproblems",
+  "version": "1.0.0",
+  "description": "",
+  "main": "activity-selection.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MaiDeveloper/CodingProblems.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MaiDeveloper/CodingProblems/issues"
+  },
+  "homepage": "https://github.com/MaiDeveloper/CodingProblems#readme",
+  "dependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^6.1.4"
+  }
+}
