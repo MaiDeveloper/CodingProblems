@@ -1,24 +1,30 @@
-function smallestCommons(arr) {
-  const min = Math.min(...arr);
-  const max = Math.max(...arr);
+function lcs(wordX, wordY) {
+  const m = wordX.length;
+  const n = wordY.length;
+  const l = [];
 
-  let found = false;
-  let i = 0;
-
-  while (!found) {
-    let num = max * ++i;
-    if (num % min === 0) {
-      found = true;
-      for (let i = min + 1; i < max && found; i++) {
-        if (num % i !== 0) {
-          found = false;
-        }
-      }
+  for (let i = 0; i <= m; i++) {
+    l[i] = []; // {1}
+    for (let j = 0; j <= n; j++) {
+      l[i][j] = 0; // {2}
     }
   }
 
-  return max * i;
+  for (let i = 0; i <= m; i++) {
+    for (let j = 0; j <= n; j++) {
+      if (i === 0 || j === 0) {
+        continue;
+      } else if (wordX[i - 1] === wordY[j - 1]) {
+        l[i][j] = l[i - 1][j - 1] + 1; // {3}
+      } else {
+        const a = l[i - 1][j];
+        const b = l[i][j - 1];
+        l[i][j] = a > b ? a : b; // {4} max(a,b)
+      }
+    }
+  }
+  console.log(l);
+  return l[m][n]; // {5}
 }
 
-// test here
-console.log(smallestCommons([1,5]));
+console.log(lcs('acbaed', 'abcadf'));
