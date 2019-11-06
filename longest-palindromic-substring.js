@@ -1,9 +1,32 @@
 /**
- * Longest Palindromic Substring | Set 1
+ * Longest Palindromic Substring
  *
- * Given a string, find the longest substring which is palindrome. For example, if the given string is “forgeeksskeegfor”, the output should be "geeksskeeg".
+ * Given a string str, find the longest palindromic substring in str.
+ *
+ * Example 1:
+ *
+ * Input: "babad"
+ * Output: "bab"
+ * Note: "aba" is also a valid answer.
+ *
+ * Example 2:
+ *
+ * Input: "cbbd"
+ * Output: "bb"
  */
 
+
+/**
+ * Return the length of longest substring
+ *
+ * @param {string} str
+ * @return {string}
+ * @time complexity: O(n2)
+ * @space complexity: O(1)
+ * @example
+ * longestPalindromeSubstring('babad') => 'bab'
+ * longestPalindromeSubstring('cbbd') => 'bb'
+ */
 function longestPalindromeSubstring(str) {
   if (str === undefined || str === null || str.length < 1) {
     return '';
@@ -33,6 +56,8 @@ function longestPalindromeSubstring(str) {
  * @param {number} left
  * @param {number} right
  * @return {number}
+ * @time complexity: O(n)
+ * @space complexity: O(1)
  * @example
  * expandAroundCenter('abcdefg', 3, 3) => 1
  * expandAroundCenter('abedefg', 3, 3) => 3
@@ -94,5 +119,31 @@ var longestPalindromeSubseq = function(str) {
 };
 
 
+const assert = require('chai').assert;
+
+describe('Longest Palindromic Substring', () => {
+
+  it('should return \'aba\' when \'babad\' is given', () => {
+    assert.strictEqual(longestPalindromeSubstring('babad'), 'bab');
+  });
+
+  it('should return \'bb\' when \'cbbd\' is given', () => {
+    assert.strictEqual(longestPalindromeSubstring('cbbd'), 'bb');
+  });
+
+});
+
 console.log(longestPalindromeSubseq('forgeeksskeegfor'));       //  geeksskeeg
 console.log(longestPalindromeSubstring('forgeeksskeegfor'));    // geeksskeeg
+
+// describe('expandAroundCenter', () => {
+
+//   it('should return 1', () => {
+//     assert.strictEqual(expandAroundCenter('abcbbca', 2, 2), 3);
+//   });
+
+//   it('should return 4', () => {
+//     assert.strictEqual(expandAroundCenter('abcbbca', 3, 4), 4);
+//   })
+
+// });
