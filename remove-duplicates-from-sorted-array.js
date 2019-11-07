@@ -50,7 +50,7 @@ function removeDuplicates(nums) {
  * @time complexity: O(n)
  * @space complexity: O(1)
  */
-function removeDuplicates(nums) {
+function removeDuplicates2(nums) {
   for (let i = 0; i < nums.length-1; i++) {
     if (nums[i] === nums[i+1]) {
       nums.splice(i, 1);

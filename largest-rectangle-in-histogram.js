@@ -28,8 +28,11 @@
  */
 
 /**
+ * Get the largest rectangle area
  * @param {number[]} heights
  * @return {number}
+ * @time complexity: O(n)
+ * @space complexity: O(n)
  */
 const largestRectangleArea = heights => {
 
@@ -54,6 +57,15 @@ const largestRectangleArea = heights => {
   return maxArea;
 };
 
+/**
+ * Calcualte the area
+ * @param {number} i          index element in heights
+ * @param {number[]} heights
+ * @param {number[]} stack
+ * @return {number}
+ * @time complexity: O(1)
+ * @space complexity: O(1)
+ */
 const getArea = (i, heights, stack) => {
   const h = heights[stack.pop()],
         w = stack.length ? i - stack[stack.length-1] - 1 : i;
@@ -62,22 +74,20 @@ const getArea = (i, heights, stack) => {
 };
 
 
-const assert = require('chai').assert;
+import { assert } from 'chai';
 
 describe('Largest Rectangle in Histogram', () => {
 
   it('should find the longest path', () => {
-    const input = [2,1,5,6,2,3],
-          output = 10;
-
-    assert.strictEqual(largestRectangleArea(input), output);
+    assert.strictEqual(largestRectangleArea([2,1,5,6,2,3]), 10);
   });
 
   it('should return 2 for [1, 1]', () => {
-    const input = [1, 1],
-          output = 2;
+    assert.strictEqual(largestRectangleArea([1, 1]), 2);
+  });
 
-    assert.strictEqual(largestRectangleArea(input), output);
-  })
+  it('should return 1 for [1]', () => {
+    assert.strictEqual(largestRectangleArea([1]), 1);
+  });
 
 });
