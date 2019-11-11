@@ -66,7 +66,7 @@ class UniquePath {
   /**
    * Set the grid
    * @param {Array[][]} grid
-   * @time complexity: O(mn), where m is the number of rows and n is the number of cols
+   * @time complexity: O(mn), where m is the number of rows and n is the number of columns
    * @space complexity: O(mn)
    */
   setGrid(grid) {
@@ -101,7 +101,7 @@ class UniquePath {
    * @param {Number} col
    * @param {Number} validSquare
    * @return {Number} Number of unique paths
-   * @time complexity: O(4^m*n), where m is the number of rows and n is the number of cols,
+   * @time complexity: O(4^m*n), where m is the number of rows and n is the number of columns,
    *                             it walks in 4 directions (up, down, left, right). So its 4 power m * n
    * @space complexity: O(mn), because of its recursion stacks
    */
