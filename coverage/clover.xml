@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<coverage generated="1592460329139" clover="3.2.0">
+  <project timestamp="1592460329139" name="All files">
+    <metrics statements="63" coveredstatements="63" conditionals="23" coveredconditionals="23" methods="12" coveredmethods="12" elements="98" coveredelements="98" complexity="0" loc="63" ncloc="63" packages="1" files="1" classes="1"/>
+    <file name="linked-list.js" path="/Users/mike/Documents/GitHub/CodingProblems/linked-list.js">
+      <metrics statements="63" coveredstatements="63" conditionals="23" coveredconditionals="23" methods="12" coveredmethods="12"/>
+      <line num="9" count="25" type="stmt"/>
+      <line num="13" count="97" type="stmt"/>
+      <line num="14" count="97" type="stmt"/>
+      <line num="20" count="46" type="stmt"/>
+      <line num="21" count="46" type="stmt"/>
+      <line num="22" count="46" type="stmt"/>
+      <line num="33" count="94" type="stmt"/>
+      <line num="35" count="94" type="cond" truecount="2" falsecount="0"/>
+      <line num="37" count="24" type="stmt"/>
+      <line num="39" count="24" type="stmt"/>
+      <line num="40" count="24" type="stmt"/>
+      <line num="43" count="70" type="stmt"/>
+      <line num="46" count="70" type="stmt"/>
+      <line num="47" count="69" type="stmt"/>
+      <line num="51" count="70" type="stmt"/>
+      <line num="54" count="70" type="stmt"/>
+      <line num="66" count="8" type="cond" truecount="4" falsecount="0"/>
+      <line num="67" count="4" type="stmt"/>
+      <line num="72" count="4" type="cond" truecount="2" falsecount="0"/>
+      <line num="73" count="1" type="stmt"/>
+      <line num="76" count="1" type="stmt"/>
+      <line num="78" count="3" type="stmt"/>
+      <line num="80" count="3" type="stmt"/>
+      <line num="82" count="3" type="stmt"/>
+      <line num="86" count="4" type="stmt"/>
+      <line num="88" count="4" type="stmt"/>
+      <line num="101" count="5" type="cond" truecount="4" falsecount="0"/>
+      <line num="102" count="2" type="stmt"/>
+      <line num="106" count="3" type="stmt"/>
+      <line num="109" count="3" type="cond" truecount="2" falsecount="0"/>
+      <line num="110" count="1" type="stmt"/>
+      <line num="111" count="1" type="stmt"/>
+      <line num="112" count="1" type="stmt"/>
+      <line num="114" count="1" type="stmt"/>
+      <line num="117" count="2" type="stmt"/>
+      <line num="119" count="2" type="stmt"/>
+      <line num="120" count="2" type="stmt"/>
+      <line num="122" count="2" type="stmt"/>
+      <line num="124" count="2" type="stmt"/>
+      <line num="135" count="8" type="stmt"/>
+      <line num="136" count="8" type="stmt"/>
+      <line num="138" count="8" type="stmt"/>
+      <line num="139" count="25" type="cond" truecount="2" falsecount="0"/>
+      <line num="140" count="4" type="stmt"/>
+      <line num="142" count="21" type="stmt"/>
+      <line num="143" count="21" type="stmt"/>
+      <line num="146" count="4" type="stmt"/>
+      <line num="157" count="3" type="stmt"/>
+      <line num="158" count="3" type="stmt"/>
+      <line num="168" count="2" type="stmt"/>
+      <line num="178" count="3" type="stmt"/>
+      <line num="188" count="3" type="stmt"/>
+      <line num="200" count="17" type="cond" truecount="4" falsecount="0"/>
+      <line num="201" count="2" type="stmt"/>
+      <line num="204" count="15" type="cond" truecount="2" falsecount="0"/>
+      <line num="205" count="6" type="stmt"/>
+      <line num="208" count="9" type="stmt"/>
+      <line num="210" count="9" type="stmt"/>
+      <line num="213" count="9" type="stmt"/>
+      <line num="214" count="18" type="stmt"/>
+      <line num="215" count="18" type="stmt"/>
+      <line num="216" count="18" type="stmt"/>
+      <line num="219" count="9" type="stmt"/>
+    </file>
+  </project>
+</coverage>

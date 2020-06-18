@@ -15,7 +15,7 @@ class Stack {
    * Add an item
    * @param {*} item
    * @time complexity: O(1)
-   * @space complexity: O(N)
+   * @space complexity: O(1)
    */
   push(item) {
     items.get(this)[count.get(this)] = item;
