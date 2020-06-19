@@ -1,13 +1,13 @@
-import LinkedList from '../linked-list';
+import DoublyLinkedList from '../doubly-linked-list';
 
-describe('Linked List', () => {
+describe('Doubly Linked List', () => {
 
   let newList;
   let wordList;
 
   beforeEach(() => {
-    newList = new LinkedList();
-    wordList = new LinkedList();
+    newList = new DoublyLinkedList();
+    wordList = new DoublyLinkedList();
     wordList.push('one');
     wordList.push('two');
     wordList.push('three');
@@ -95,6 +95,10 @@ describe('Linked List', () => {
 
     test('should return false if the given index is greater than the total number of nodes',() => {
       expect(wordList.insert('five', 5)).toEqual(false);
+    });
+
+    test('should insert at the beinning when there is no item', () => {
+      expect(newList.insert('zero', 0)).toEqual(true);
     });
 
     test('should insert at the beginning', () => {

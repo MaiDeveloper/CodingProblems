@@ -1,29 +1,35 @@
-import LinkedList from '../linked-list';
+import SortedLinkedList from '../sorted-linked-list';
 
-describe('Linked List', () => {
+describe('Sorted Linked List', () => {
 
   let newList;
   let wordList;
 
   beforeEach(() => {
-    newList = new LinkedList();
-    wordList = new LinkedList();
-    wordList.push('one');
-    wordList.push('two');
-    wordList.push('three');
-    wordList.push('four');
+    newList = new SortedLinkedList();
+    wordList = new SortedLinkedList();
+    wordList.push('aaa');
+    wordList.push('bbb');
+    wordList.push('ccc');
+    wordList.push('ddd');
   });
 
   describe('push', () => {
     test('should add a node to the end', () => {
       newList.push(1);
-      newList.push(2);
 
       expect(newList.head).not.toBeNull();
       expect(newList.head.value).toEqual(1);
-      expect(newList.head.next).not.toBeNull();
-      expect(newList.head.next.value).toEqual(2);
+    });
 
+    test('should maintain the sorted order', () => {
+      newList.push(2);
+      newList.push(3);
+      newList.push(1);
+
+      expect(newList.head.value).toEqual(1);
+      expect(newList.head.next.value).toEqual(2);
+      expect(newList.head.next.next.value).toEqual(3);
     });
   });
 
@@ -39,7 +45,7 @@ describe('Linked List', () => {
       expect(newList.isEmpty()).toEqual(true);
     });
 
-    test('should return false if there is at least one node', () => {
+    test('should return false if there is at least aaa node', () => {
       expect(wordList.isEmpty()).toEqual(false);
     });
   });
@@ -54,19 +60,19 @@ describe('Linked List', () => {
     });
 
     test('should return a node at the specific index', () => {
-      expect(wordList.getElementAt(0).value).toEqual('one');
-      expect(wordList.getElementAt(1).value).toEqual('two');
-      expect(wordList.getElementAt(2).value).toEqual('three');
+      expect(wordList.getElementAt(0).value).toEqual('aaa');
+      expect(wordList.getElementAt(1).value).toEqual('bbb');
+      expect(wordList.getElementAt(2).value).toEqual('ccc');
     });
   });
-
+  
   describe('getHead', () => {
     test('should return null if the linked list is empty', () => {
       expect(newList.getHead()).toBeNull();
     });
     test('should return the head of the linked list', () => {
       expect(wordList.getHead()).not.toBeNull();
-      expect(wordList.getHead().value).toEqual('one');
+      expect(wordList.getHead().value).toEqual('aaa');
     });
   });
 
@@ -81,61 +87,43 @@ describe('Linked List', () => {
     });
 
     test('should remove a node at a specific index', () => {
-      expect(wordList.removeAt(0)).toEqual('one');
-      expect(wordList.removeAt(1)).toEqual('three');
-      expect(wordList.removeAt(1)).toEqual('four');
+      expect(wordList.removeAt(0)).toEqual('aaa');
+      expect(wordList.removeAt(1)).toEqual('ccc');
+      expect(wordList.removeAt(1)).toEqual('ddd');
     });
   });
 
   describe('insert', () => {
 
-    test('should return false if the given index is less than 0', () => {
-      expect(wordList.insert('five', -1)).toEqual(false);
+    test('should maintain the sorted order', () => {
+      newList.insert(2);
+      newList.insert(3);
+      newList.insert(1);
+
+      expect(newList.head.value).toEqual(1);
+      expect(newList.head.next.value).toEqual(2);
+      expect(newList.head.next.next.value).toEqual(3);
     });
 
-    test('should return false if the given index is greater than the total number of nodes',() => {
-      expect(wordList.insert('five', 5)).toEqual(false);
-    });
-
-    test('should insert at the beginning', () => {
-      expect(wordList.insert('zero', 0)).toEqual(true);
-
-      expect(wordList.getElementAt(0).value).toEqual('zero');
-      expect(wordList.getElementAt(1).value).toEqual('one');
-    });
-
-    test('should insert at the end', () => {
-      expect(wordList.insert('five', 4)).toEqual(true);
-
-      expect(wordList.getElementAt(0).value).toEqual('one');
-      expect(wordList.getElementAt(4).value).toEqual('five');
-    });
-
-    test('should insert a node at the specific index', () => {
-      expect(wordList.insert('hello', 2)).toEqual(true);
-      expect(wordList.getElementAt(1).value).toEqual('two');
-      expect(wordList.getElementAt(2).value).toEqual('hello');
-      expect(wordList.getElementAt(3).value).toEqual('three');
-    });
   });
 
   describe('indexOf', () => {
 
     test('should return -1 if not found', () => {
-      expect(wordList.indexOf('One')).toEqual(-1);
-      expect(wordList.indexOf('five')).toEqual(-1);
+      expect(wordList.indexOf('AAA')).toEqual(-1);
+      expect(wordList.indexOf('eee')).toEqual(-1);
     });
 
     test('should return the start index', () => {
-      expect(wordList.indexOf('one')).toEqual(0);
+      expect(wordList.indexOf('aaa')).toEqual(0);
     });
 
     test('should return the last index', () => {
-      expect(wordList.indexOf('four')).toEqual(3);
+      expect(wordList.indexOf('ddd')).toEqual(3);
     });
 
     test('should return the index', () => {
-      expect(wordList.indexOf('three')).toEqual(2);
+      expect(wordList.indexOf('ccc')).toEqual(2);
     });
   });
 
@@ -146,9 +134,9 @@ describe('Linked List', () => {
     });
 
     test('should delete the node', () => {
-      expect(wordList.remove('two')).toEqual('two');
+      expect(wordList.remove('bbb')).toEqual('bbb');
       expect(wordList.size()).toEqual(3);
-      expect(wordList.remove('two')).toEqual(undefined);
+      expect(wordList.remove('bbb')).toEqual(undefined);
     });
   });
 

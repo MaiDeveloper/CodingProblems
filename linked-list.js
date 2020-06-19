@@ -2,20 +2,26 @@
  * Default comparator for checking equality of two nodes
  * @param {*} a 
  * @param {*} b
- * @return {boolean}
+ * @return {number}
  * @time complexity: O(1)
  * @space complexity: O(1)
  */
-const comparator = (a, b) => a === b;
+export const comparator = (a, b) => {
+  if (a === b) {
+    return 0;
+  }
 
-class Node {
-  constructor(data) {
-    this.data = data;
+  return a < b ? -1 : 1;
+};
+
+export class Node {
+  constructor(value) {
+    this.value = value;
     this.next = null;
   }
 }
 
-class LinkedList {
+export default class LinkedList {
   constructor(compareFunc = comparator) {
     this.length = 0;
     this.head = null;
@@ -24,13 +30,13 @@ class LinkedList {
 
   /**
    * Add a node to the end
-   * @param {*} data
+   * @param {*} value
    * @time complexity: O(N) where N is the size of linked list
    * @space complexity: O(1)
    */
-  append(data) {
+  push(value) {
     // CREATE AN NEW NODE
-    const node = new Node(data);
+    const node = new Node(value);
 
     if (this.head === null) {
       // SET THE HEAD TO CURRENT NODE
@@ -55,10 +61,10 @@ class LinkedList {
   }
 
   /**
-   * Remove a node at a specific position
+   * Remove a node at a specific index
    * @param {number} index
-   * @return {*}     data
-   * @time complexity: O(N) where N is the size of libked list
+   * @return {*}     value
+   * @time complexity: O(N) where N is the size of linked list
    * @space complexity: O(1)
    */
   removeAt(index) {
@@ -75,7 +81,7 @@ class LinkedList {
       // REPLACE THE HEAD
       this.head = this.head.next;
     } else {
-      const previous = this.getNodeAt(index - 1);
+      const previous = this.getElementAt(index - 1);
       
       current = previous.next;
       // REPLACE THE CURRENT NODE WITH THE NEXT NODE
@@ -85,25 +91,25 @@ class LinkedList {
     // DECREMENT THE LENGTH
     this.length--;
 
-    return current.data;
+    return current.value;
   }
 
   /**
    * Insert a node into a specific position in the linked list
+   * @param {*} value 
    * @param {number} index 
-   * @param {*} data 
    * @return {boolean} return true if success, else false
    * @time complexity: O(N) where N is the size of the linked list
    * @space complexity: O(1)
    */
-  insert(index, data) {
+  insert(value, index) {
     // CHECK IF THE POSITION IS OUT OF RANGE
     if (index < 0 || index >= this.length + 1) {
       return false;
     }
 
     // CREATE AN NEW NODE
-    const node = new Node(data);
+    const node = new Node(value);
     
     // ADD TO THE HEAD
     if (index === 0) {
@@ -114,7 +120,7 @@ class LinkedList {
       return true;
     }
 
-    const previous = this.getNodeAt(index - 1);
+    const previous = this.getElementAt(index - 1);
 
     node.next = previous.next;
     previous.next = node;
@@ -126,17 +132,17 @@ class LinkedList {
 
   /**
    * Find and get the index of the node
-   * @param {*} data 
+   * @param {*} value 
    * @return {number}
    * @time complexity: O(N) where N is the size of the linked list
    * @space complexity: O(1)
    */
-  indexOf(data) {
+  indexOf(value) {
     let current = this.head,
         index = 0;
     
     while (current) {
-      if (this.comparator(current.data, data)) {
+      if (this.comparator(current.value, value) === 0) {
         return index;
       }
       current = current.next;
@@ -148,13 +154,13 @@ class LinkedList {
 
   /**
    * Find and remove a node from the linked list
-   * @param {*} data 
+   * @param {*} value 
    * @return {*}
    * @time complexity: O(N) where N is the size of the linked list
    * @space complexity: O(1)
    */
-  remove(data) {
-    const index = this.indexOf(data);
+  remove(value) {
+    const index = this.indexOf(value);
     return this.removeAt(index);
   }
 
@@ -189,13 +195,13 @@ class LinkedList {
   }
 
   /**
-   * Get data at the specific index
+   * Get node at the specified index
    * @param {number} index
-   * @return {*}
+   * @return {Node}
    * @time complexity: O(N) where N is the size of the linked list
    * @space complexity: O(1)
    */
-  getNodeAt(index) {
+  getElementAt(index) {
     // CHECK IF THE POSITION IS OUT OF RANGE
     if (index < 0 || index >= this.length) {
       return undefined;
@@ -219,6 +225,14 @@ class LinkedList {
     return current;
   }
 
-}
+  /**
+   * Remove all nodes
+   * @time complexity: O(1)
+   * @space complexity: O(1)
+   */
+  clear() {
+    this.length = 0;
+    this.head = null;
+  }
 
-export default LinkedList;
+}
