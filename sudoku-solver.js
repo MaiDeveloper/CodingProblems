@@ -1,73 +1,123 @@
-class SudokuSolver {
-  constructor() {
-    this.UNASSIGNED = 0;
-  }
-  solve(matrix) {
-    if (this.trySolve(matrix)) {
-      return matrix;
-    }
-    return false;
-  }
-  trySolve(matrix) {
-    let row = 0;
-    let col = 0;
-    let blank = false;
+export const UNASSIGNED = 0;
 
-    for (row = 0; row < matrix.length; row++) {
-      for (col = 0; col < matrix[row].length; col++) {
-        if (matrix[row][col] === this.UNASSIGNED) {
-          blank = true;
+export default class SudokuSolver {
+
+  /**
+   * Solve a sodoku
+   * @param {number[][]}  matrix 
+   * @return {boolean}    Return true if the sudoku is solved, otherwise false
+   * @time complexity: O(9 ^ (m * n)) where m is the number of rows, n is the number of columns
+   * @space complexity: O(m * n) where m is the number of rows, n is the number of columns, this is because of recursive calls
+   */
+  solve(matrix, row = 0, col = 0) {
+    // RETURN FALSE IF THE MATRIX IS NOT VALID
+    if (!matrix || matrix.length === 0 || matrix[0].length === 0) {
+      return false;
+    }
+
+
+    const rows = matrix.length,       // TOTAL NUMBER OF ROWS
+          cols = matrix[0].length;    // TOTAL NUMBER OF COLUMNS
+    
+    let isUnassigned = false;
+
+    // CHECK IF THE MATRIX CONTAINS UNASSIGNED VALUE
+    for (row = 0; row < rows; row++) {
+      for (col = 0; col < cols; col++) {
+        if (matrix[row][col] === UNASSIGNED) {
+          // GET OUT OF THE LOOP IF THE UNASSIGNED VALUE IS FOUND
+          isUnassigned = true;
           break;
         }
       }
-      if (blank) {
+
+      // GET OUT OF THE LOOP
+      if (isUnassigned) {
         break;
       }
     }
 
-    if (!blank) {
-      return true;
+    // RETURN THE SOLVED MATRIX
+    if (!isUnassigned) {
+      return matrix;
     }
 
+    // LOOP FROM NUMBER 1 TO 9
     for (let num = 1; num <= 9; num++) {
+      
+      // CHECK IF THE NUMBER IS AVAILABLE TO FILL IN THIS CELL
       if (this.isSafe(matrix, row, col, num)) {
+
+        // FILL IN THE CELL WITH THE CURRENT NUMBER
         matrix[row][col] = num;
-        if (this.trySolve(matrix)) {
-          return true;
+        
+        // TRY SOLVE THE NEXT UNASSIGNED CELL
+        if (this.solve(matrix, row, col)) {
+          // RETURN MATRIX IF IT IS SOLVED
+          return matrix;
         }
-        matrix[row][col] = this.UNASSIGNED;
+
+        // UNDO THE FILL
+        matrix[row][col] = UNASSIGNED;
       }
     }
+    
+    // RETURN FALSE IF IT IS IMPOSSIBLE TO SOLVE
+    return false;
   }
-  isSolved(matrix) {
-    for (let i = 0; i < matrix.length; i++) {
-      for (let j = 0; j < matrix[i].length; j++) {
-        if (matrix[i][j] === this.UNASSIGNED) {
-          return false;
-        }
-      }
-    }
-    return true;
-  }
+
+  /**
+   * Check if a row contains a specific number
+   * @param {number[][]} matrix
+   * @param {number} row          Row index
+   * @param {number} num          Number to search for
+   * @return {boolean}            Return true if the number is found, otherwise false
+   * @time complexity: O(N) where N is the total number of columns in a specific row
+   * @space complexity: O(1)
+   */
   isInRow(matrix, row, num) {
     for (let i = 0; i < matrix[row].length; i++) {
+      // RETURN TRUE IF THE COLUMN CONTAINS THE NUMBER
       if (matrix[row][i] === num) {
         return true;
       }
     }
     return false;
   }
+
+  /**
+   * Check if a column contains a specific number
+   * @param {number[][]} matrix
+   * @param {number} col          Column index
+   * @param {number} num          Number to search for
+   * @return {boolean}            Return true if the number is found, otherwise false
+   * @time complexity: O(N) where N is the total number of rows in a specific column
+   * @space complexity: O(1)
+   */
   isInCol(matrix, col, num) {
     for (let i = 0; i < matrix.length; i++) {
+      // RETURN TRUE IF THE ROW CONTAINS THE NUMBER
       if (matrix[i][col] === num) {
         return true;
       }
     }
     return false;
   }
+
+  /**
+   * Check if the 3x3 grid contains a specific number
+   * @param {number[][]} matrix 
+   * @param {number} row          Starting row index
+   * @param {number} col          Starting column index
+   * @param {number} num          Number to search for
+   * @return {boolean}            Return true if the number is found, otherwise false
+   * @time complexity: O(1)
+   * @space complexity: O(1)
+   */
   isInBox(matrix, row, col, num) {
     for (let i = 0; i < 3; i++) {
       for (let j = 0 ; j < 3; j++) {
+        // RETURN TRUE IF THE NUMBER IS FOUND
         if (matrix[row + i][col + j] === num) {
           return true;
         }
@@ -75,6 +125,17 @@ class SudokuSolver {
     }
     return false;
   }
+
+  /**
+   * Check if a specific number exists in a specific row, column, and 3x3 grid
+   * @param {number[][]} matrix 
+   * @param {number} row        Row index 
+   * @param {number} col        Column index
+   * @param {number} num        Number to search for
+   * @return {boolean}          Return true if the number if found, otherwise false
+   * @time complexity: O(N + M) where N is the size of row, M is the size of column
+   * @space complexity: O(1)
+   */
   isSafe(matrix, row, col, num) {
     return (
       !this.isInRow(matrix, row, num) &&
@@ -83,110 +144,3 @@ class SudokuSolver {
     );
   }
 }
-
-const assert = require('chai').assert;
-
-describe('SudokuSolver', () => {
-  let sudokuGrid;
-  let sudokuGridSolved;
-  let sudoku;
-
-  beforeEach(() => {
-    sudokuGrid = [
-      [5, 3, 0, 0, 7, 0, 0, 0, 0],
-      [6, 0, 0, 1, 9, 5, 0, 0, 0],
-      [0, 9, 8, 0, 0, 0, 0, 6, 0],
-      [8, 0, 0, 0, 6, 0, 0, 0, 3],
-      [4, 0, 0, 8, 0, 3, 0, 0, 1],
-      [7, 0, 0, 0, 2, 0, 0, 0, 6],
-      [0, 6, 0, 0, 0, 0, 2, 8, 0],
-      [0, 0, 0, 4, 1, 9, 0, 0, 5],
-      [0, 0, 0, 0, 8, 0, 0, 7, 9]
-    ];
-
-    sudokuGridSolved = [
-      [5, 3, 4, 6, 7, 8, 9, 1, 2],
-      [6, 7, 2, 1, 9, 5, 3, 4, 8],
-      [1, 9, 8, 3, 4, 2, 5, 6, 7],
-      [8, 5, 9, 7, 6, 1, 4, 2, 3],
-      [4, 2, 6, 8, 5, 3, 7, 9, 1],
-      [7, 1, 3, 9, 2, 4, 8, 5, 6],
-      [9, 6, 1, 5, 3, 7, 2, 8, 4],
-      [2, 8, 7, 4, 1, 9, 6, 3, 5],
-      [3, 4, 5, 2, 8, 6, 1, 7, 9]
-    ];
-
-    sudoku = new SudokuSolver();
-  });
-
-  it('UNASSIGNED should be 0', () => {
-    assert.strictEqual(sudoku.UNASSIGNED, 0);
-  });
-
-  describe('#isSolved', () => {
-    it('should return false', () => {
-      assert.strictEqual(sudoku.isSolved(sudokuGrid), false);
-    });
-    it('should return false', () => {
-      assert.strictEqual(sudoku.isSolved(sudokuGridSolved), true);
-    });
-  });
-
-  describe('#isInRow', () => {
-    it('should return false', () => {
-      assert.strictEqual(sudoku.isInRow(sudokuGrid, 0, 9), false);
-    });
-    it('should return true', () => {
-      assert.strictEqual(sudoku.isInRow(sudokuGrid, 1, 9), true);
-    });
-  });
-
-  describe('#isInCol', () => {
-    it('should return false', () => {
-      assert.strictEqual(sudoku.isInCol(sudokuGrid, 1, 1), false);
-    });
-    it('should return true', () => {
-      assert.strictEqual(sudoku.isInCol(sudokuGrid, 1, 9), true);
-    });
-  });
-
-  describe('#isInBox', () => {
-    it('should return false', () => {
-      assert.strictEqual(sudoku.isInBox(sudokuGrid, 0, 3, 2), false);
-    });
-    it('should return true', () => {
-      assert.strictEqual(sudoku.isInBox(sudokuGrid, 0, 3, 1), true);
-    });
-  });
-
-  describe('#isSafe', () => {
-    it('should return false', () => {
-      assert.strictEqual(sudoku.isSafe(sudokuGrid, 2, 0, 3), false);
-    });
-    it('should return true', () => {
-      assert.strictEqual(sudoku.isSafe(sudokuGrid, 2, 0, 1), true);
-    });
-  });
-
-  describe('#trySolve', () => {
-    it('should solve the sudoku', () => {
-      const solved = sudoku.solve(sudokuGrid);
-      assert.deepEqual(solved, sudokuGridSolved);
-    });
-    it('should return false if sudoku is impossible to solve', () => {
-      const sudokuGrid2 = [
-        [5, 3, 0, 0, 7, 0, 0, 0, 0],
-        [2, 0, 0, 1, 9, 5, 0, 0, 0],
-        [0, 9, 8, 0, 0, 0, 0, 6, 0],
-        [8, 0, 0, 0, 6, 0, 0, 0, 3],
-        [4, 0, 0, 8, 0, 3, 0, 0, 1],
-        [7, 0, 0, 0, 2, 0, 0, 0, 6],
-        [0, 6, 0, 0, 0, 0, 2, 8, 0],
-        [0, 0, 0, 4, 1, 9, 0, 0, 5],
-        [0, 0, 0, 0, 8, 0, 0, 7, 9]
-      ];
-      assert.strictEqual(sudoku.solve(sudokuGrid2), false);
-    });
-  });
-
-});

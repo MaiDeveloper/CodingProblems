@@ -1,96 +1,150 @@
-class Node {
-  constructor(key) {
-    this.key = key;
+export const comparator = (a, b) => {
+  if (a === b) {
+    return 0;
+  }
+
+  return a < b ? -1 : 1;
+};
+
+export class Node {
+  constructor(value) {
+    this.value = value;
     this.left = null;
     this.right = null;
   }
 }
 
-class BinarySearchTree {
-  constructor() {
+export default class BinarySearchTree {
+  constructor(compareFunc = comparator) {
     this.root = null;
+    this.comparator = compareFunc;
   }
 
-  insert(key) {
-    const node = new Node(key);
+  /**
+   * Add a node
+   * @param {*} value 
+   * @time complexity: O(LOG N) where N is the size of the tree
+   * @space complexity: O(1)
+   */
+  insert(value) {
+    // CREATE AN NEW NODE
+    const node = new Node(value);
 
+    // IF THERE IS NO ROOT, SET THE NEW NODE AS THE ROOT
     if (this.root === null) {
       this.root = node;
       return;
     }
 
-    this.insertNode(root, node);
+    // INSERT THE NEW NODE IN SUBTREE
+    this._insertNode(this.root, node);
   }
 
-  insertNode(parent, node) {
-    if (node.key < parent.key) {
+  /**
+   * Insert a node in a given parent
+   * @param {Node} parent 
+   * @param {Node} node 
+   * @time complexity: O(LOG N) where N is the size of the parent node
+   * @space complexity: O(1)
+   */
+  _insertNode(parent, node) {
+    // IF THE NODE IS LESS THAN THE PARENT
+    if (this.comparator(node.value, parent.value) == -1) {
+      // IF REACH THE LEAF, ADD TO IT
       if (parent.left === null) {
         parent.left = node;
         return;
       }
 
-      return this.insertNode(parent.left, node);
+      // CONTINUE INSERT INTO LEFT SUBTREE
+      return this._insertNode(parent.left, node);
     }
 
+    // IF REACH THE LEFT, ADD TO IT
     if (parent.right === null) {
       parent.right = node;
       return;
     }
 
-    return this.insertNode(parent.right, node);
+    // CONTINUE INSERT INTO RIGHT SUBTREE
+    return this._insertNode(parent.right, node);
   }
 
-  search(key) {
-
-  }
-
+  /**
+   * Traversing the tree from left to right, meaning from the smallest to the largest
+   * @param {function} callback
+   * @time complexity: O(N) where N is the size of the tree
+   * @space complexity: O(N) where N is the size of the tree
+   */
   inOrderTraverse(callback) {
-    this.inOrderTraverseNode(this.root, callback);
+    this._inOrderTraverseNode(this.root, callback);
   }
 
-  inOrderTraverseNode(node, callback) {
+  _inOrderTraverseNode(node, callback) {
     if (node === null) {
       return;
     }
 
-    this.inOrderTraverseNode(node.left, callback);
-    callback(node.key);
-    this.inOrderTraverseNode(node.right, callback);
+    this._inOrderTraverseNode(node.left, callback);
+    callback(node.value);
+    this._inOrderTraverseNode(node.right, callback);
   }
 
+  /**
+   * Traversing the tree from left to right
+   * Difference between pre-order and in-order traverse, 
+   * is that pre-order traverse visit the root first,
+   * and then the left node, finally the right node
+   * @param {function} callback
+   * @time complexity: O(N) where N is the size of the tree
+   * @space complexity: O(N) where N is the size of the tree
+   */
   preOrderTraverse(callback) {
-    this.preOrderTraverseNode(this.root, callback);
+    this._preOrderTraverseNode(this.root, callback);
   }
 
-  preOrderTraverseNode(node, callback) {
+  _preOrderTraverseNode(node, callback) {
     if (node === null) {
       return;
     }
 
-    callback(node.key);
-    this.preOrderTraverseNode(node.left, callback);
-    this.preOrderTraverseNode(node.right, callback);
+    callback(node.value);
+    this._preOrderTraverseNode(node.left, callback);
+    this._preOrderTraverseNode(node.right, callback);
   }
 
+  /**
+   * Traversing the tree from bottom up
+   * Visit the left node and then the right node, finally the root node
+   * @param {function} callback
+   * @time complexity: O(N) where N is the size of the tree
+   * @space complexity: O(N) where N is the size of the tree
+   */
   postOrderTraverse(callback) {
-    this.postOrderTraverseNode(this.root, callback);
+    this._postOrderTraverseNode(this.root, callback);
   }
 
-  postOrderTraverseNode(node, callback) {
+  _postOrderTraverseNode(node, callback) {
     if (node === null) {
       return;
     }
 
-    this.postOrderTraverseNode(node.left, callback);
-    this.postOrderTraverseNode(node.right, callback);
-    callback(node.key);
+    this._postOrderTraverseNode(node.left, callback);
+    this._postOrderTraverseNode(node.right, callback);
+    callback(node.value);
   }
 
+  /**
+   * Find the minimum value
+   * @return {*}
+   * @time complexity: O(LOG N) where N is the size of the tree
+   * @space complexity: O(1)
+   */
   min() {
-    return this.minNode(this.root);
+    return this._minNode(this.root);
   }
 
-  minNode(node) {
+  _minNode(node) {
     if (node === null) {
       return null;
     }
@@ -99,9 +153,15 @@ class BinarySearchTree {
       node = node.left;
     }
 
-    return node.key;
+    return node.value;
   }
 
+  /**
+   * Find the maximum value
+   * @return {*}
+   * @time complexity: O(LOG N) where N is the size of the tree
+   * @space complexity: O(1)
+   */
   max() {
     return this.maxNode(this.root);
   }
@@ -115,45 +175,63 @@ class BinarySearchTree {
       node = node.right;
     }
 
-    return node.key;
+    return node.value;
   }
 
-  search(key) {
-    return this.searchNode(this.root, key);
+  /**
+   * Check whether or not the tree contains the value
+   * @param {*} value 
+   * @return {boolean}
+   * @time complexity: O(LOG N) where N is the size of the tree
+   * @space complexity: O(LOG N) where N is the size of the tree
+   */
+  search(value) {
+    return this._searchNode(this.root, value);
   }
 
-  searchNode(node, key) {
+  _searchNode(node, value) {
     if (node === null) {
       return false;
     }
 
-    if (key < node.key) {
-      return this.searchNode(node.left, key);
+    const compare = this.comparator(value, node.value);
+
+    if (compare === -1) {
+      return this._searchNode(node.left, value);
     }
 
-    if (key > node.key) {
-      return this.searchNode(node.right, key);
+    if (compare === 1) {
+      return this._searchNode(node.right, value);
     }
 
     return true;
   }
 
-  remove(key) {
-    this.root = this.removeNode(this.root, key);
+  /**
+   * Remove the value from the tree
+   * @param {*} value 
+   * @return {Node}
+   * @time complexity: O(LOG N) where N is the size of the tree
+   * @space complexity: O(LOG N) where N is the size of the tree
+   */
+  remove(value) {
+    this.root = this._removeNode(this.root, value);
   }
 
-  removeNode(node, key) {
+  _removeNode(node, value) {
     if (node === null) {
       return null;
     }
 
-    if (key < node.key) {
-      node.left = this.removeNode(node.left, key);
+    const compare = this.comparator(value, node.value);
+
+    if (compare === -1) {
+      node.left = this._removeNode(node.left, value);
       return node;
     }
 
-    if (key > node.key) {
-      node.right = this.removeNode(node.right, key);
+    if (compare === 1) {
+      node.right = this._removeNode(node.right, value);
       return node;
     }
 
@@ -172,14 +250,20 @@ class BinarySearchTree {
       return node;
     }
 
-    const aux = this.findMinNode(node.right);
+    const aux = this._findMinNode(node.right);
 
-    node.key = aux.key;
-    node.right = this.removeNode(node.right, aux.key);
+    node.value = aux.value;
+    node.right = this._removeNode(node.right, aux.value);
     return node;
   }
 
-  findMinNode(node) {
+  /**
+   * Find the minimum value node
+   * @param {Node} node 
+   * @time complexity: O(LOG N) where N is the size of the tree
+   * @space complexity: O(1)
+   */
+  _findMinNode(node) {
     if (node === null) {
       return null;
     }

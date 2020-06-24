@@ -1,8 +1,16 @@
-class Set {
+export default class Set {
   constructor() {
+    // STORE UNIQUE ITEMS
     this.items = {};
   }
 
+  /**
+   * Add an item
+   * @param {string} value
+   * @return {bolean}
+   * @time complexity: O(1)
+   * @space complexity: O(1)
+   */
   add(value) {
     if (this.has(value)) {
       return false;
@@ -12,10 +20,24 @@ class Set {
     return true;
   }
 
+  /**
+   * Check whether it contains the value
+   * @param {string} value 
+   * @return {boolean}
+   * @time complexity: O(1)
+   * @space complexity: O(1)
+   */
   has(value) {
     return this.items[value] !== undefined;
   }
 
+  /**
+   * Remove a value
+   * @param {string} value 
+   * @return {boolean}
+   * @time complexity: O(1)
+   * @space complexity: O(1)
+   */
   remove(value) {
     if (!this.has(value)) {
       return false;
@@ -25,36 +47,70 @@ class Set {
     return true;
   }
 
+  /**
+   * Remove everything
+   * @time complexity: O(1)
+   * @space complexity: O(1)
+   */
   clear() {
     this.items = {};
   }
 
+  /**
+   * Get the total number of items
+   * @return {number}
+   * @time complexity: O(1)
+   * @space complexity: O(N) where N is the total number of values
+   */
   size() {
     return this.values().length;
   }
 
+  /**
+   * Get all the values
+   * @return {string[]}
+   * @time complexity: O(1)
+   * @space complexity: O(N) where N is the total number of values
+   */
   values() {
     return Object.keys(this.items);
   }
 
+  /**
+   * Combine values with other set
+   * @param {Set} otherSet 
+   * @return {Set}
+   * @time complexity: O(MN) where M is the size of current set, N is the size of otherSet
+   * @space complexity: O(MN) where M is the size of current set, N is the size of otherSet
+   */
   union(otherSet) {
+    // CREATE AN NEW SET
     const newSet = new Set();
 
     let values = this.values();
 
     for (const val of values) {
+      // COPY ALL THE VALUES TO NEW SET
       newSet.add(val);
     }
 
     values = otherSet.values();
 
     for (const val of values) {
+      // COPY ALL THE VALUES FROM OTHERSET TO NEW SET
       newSet.add(val);
     }
 
     return newSet;
   }
 
+  /**
+   * Get an new set where values exists in current set and the other set
+   * @param {Set} otherSet 
+   * @return {Set}
+   * @time complexity: O(N) where N is the size of current set
+   * @space complexity: O(N) where N is the size of current set
+   */
   intersection(otherSet) {
     const newSet = new Set();
 
@@ -69,6 +125,13 @@ class Set {
     return newSet;
   }
 
+  /**
+   * Get an new set that exclude values from other set
+   * @param {Set} otherSet 
+   * @return {Set}
+   * @time complexity: O(N) where N is the size of current set
+   * @space complexity: O(N) where N is the size of current set
+   */
   difference(otherSet) {
     const newSet = new Set();
 
@@ -80,9 +143,16 @@ class Set {
       }
     }
 
-    return newSet();
+    return newSet;
   }
 
+  /**
+   * Check whether the current set is subset of otherSet
+   * @param {Set} otherSet 
+   * @return {boolean}
+   * @time complexity: O(N) where N is the size of current set
+   * @space complexity: O(N) where N is the size of current set
+   */
   subset(otherSet) {
     if (this.size() > otherSet.size()) {
       return false;
@@ -100,50 +170,3 @@ class Set {
   }
 }
 
-export default Set;
-
-const set = new Set();
-
-set.add(1);
-
-console.log(set.values());
-console.log(set.has(1));
-console.log(set.size());
-
-set.add(2);
-
-console.log(set.values());
-console.log(set.has(2));
-console.log(set.size());
-
-set.remove(1);
-
-console.log(set.values());
-
-set.remove(2);
-console.log(set.values());
-
-const set1 = new Set();
-set1.add('1');
-set1.add('2');
-
-const set2 = new Set();
-set2.add('3');
-set2.add('4');
-
-const unionSet = set1.union(set2);
-
-console.log(unionSet.values());
-
-const setA = new Set();
-setA.add(1);
-setA.add(2);
-setA.add(3);
-
-const setB = new Set();
-setB.add(2);
-setB.add(3);
-setB.add(4);
-
-const intersection = setA.intersection(setB);
-console.log(intersection.values());
