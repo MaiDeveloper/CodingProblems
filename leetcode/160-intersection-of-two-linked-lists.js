@@ -55,28 +55,35 @@ Your code should preferably run in O(n) time and use only O(1) memory.
  * @return {ListNode}
  */
 var getIntersectionNode = function(headA, headB) {
-  const obj = {};
-  
-  let node = headA;
-  
-  while (node) {
-      if (!obj[node.val]) {
-          obj[node.val] = [];
-      }
-      obj[node.val].push(node);
-      node = node.next;
-  }
-  
-  node = headB;
-  
-  while (node) {
-      if (obj[node.val]) {
-          for (let i = 0; i < obj[node.val].length; i++) {
-              if (obj[node.val][i] === node) {
-                  return node;
-              }
-          }
-      }
-      node = node.next;
-  }
+    const nodes = new Map();
+    
+    let currentNode = headA;
+    
+    while (currentNode) {
+        nodes.set(currentNode, true);
+        currentNode = currentNode.next;
+    }
+    
+    currentNode = headB;
+    
+    while (currentNode) {
+        if (nodes.has(currentNode)) {
+            return currentNode;
+        }
+        currentNode = currentNode.next;
+    }
+    
+    return null;
+};
+
+var getIntersectionNode = function(headA, headB) {
+    let nodeA = headA;
+    let nodeB = headB;
+    
+    while (nodeA !== nodeB) {
+        nodeA = nodeA ? nodeA.next : headB;
+        nodeB = nodeB ? nodeB.next : headA;
+    }
+    
+    return nodeA;
 };
