@@ -50,7 +50,7 @@ export default class MinHeap {
     let parent = this.getParentIndex(index);
 
     while (index > 0 && this.compare(this.heap[parent], this.heap[index]) === 1) {
-      swap(this.heap, parent, index);
+      this.swap(this.heap, parent, index);
       index = parent;
       parent = this.getParentIndex(index);
     }
