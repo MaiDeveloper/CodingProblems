@@ -52,6 +52,58 @@
  * @param {TreeNode} root
  * @return {number[][]}
  */
+
+const verticalTraversal = root => {
+  
+  const result = [];
+  const columns = {};
+  let minCol = 0;
+  let maxCol = 0;
+  
+  const bfs = (node, row, col) => {
+    if (!node) {
+      return;
+    }
+    
+    if (!columns[col]) {
+      columns[col] = [];
+    }
+    
+    columns[col].push({
+      row: row,
+      val: node.val
+    });
+    
+    minCol = Math.min(minCol, col);
+    maxCol = Math.max(maxCol, col);
+    
+    bfs(node.left, row + 1, col - 1);
+    bfs(node.right, row + 1, col + 1);
+  }
+  
+  bfs(root, 0, 0);
+  
+  for (let i = minCol; i <= maxCol; i++) {
+    columns[i].sort((a, b) => {
+      if (a.row === b.row) {
+        return a.val - b.val;
+      } else {
+        return a.row - b.row;
+      }
+    });
+    
+    const temp = [];
+    
+    for (let j = 0; j < columns[i].length; j++) {
+      temp.push(columns[i][j].val);
+    }
+    
+    result.push(temp);
+  }
+  
+  return result;
+}
+
 var verticalTraversalBFS = function(root) {
   const result = [];
   const map = {};

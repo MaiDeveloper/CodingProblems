@@ -24,40 +24,39 @@
  */
 var Solution = function(nums) {
   this.nums = nums;
+  this.original = nums.slice();
 };
 
 /**
-* Resets the array to its original configuration and return it.
-* @return {number[]}
-*/
+ * Resets the array to its original configuration and return it.
+ * @return {number[]}
+ */
 Solution.prototype.reset = function() {
+  this.nums = this.original;
+  this.original = this.original.slice();
+  
+  return this.original;
+};
+
+/**
+ * Returns a random shuffling of the array.
+ * @return {number[]}
+ */
+Solution.prototype.shuffle = function() {
+  for (let i = 0; i < this.nums.length; i++) {
+    const index = Math.floor(Math.random() * (this.nums.length - i)) + i;
+    const temp = this.nums[i];
+    
+    this.nums[i] = this.nums[index];
+    this.nums[index] = temp;
+  }
+  
   return this.nums;
 };
 
-/**
-* Returns a random shuffling of the array.
-* @return {number[]}
-*/
-Solution.prototype.shuffle = function() {
-  const nums = this.nums.slice();
-  
-  const swap = (i, j) => {
-      const temp = nums[i];
-      nums[i] = nums[j];
-      nums[j] = temp;
-  };
-  
-  for (let i = nums.length - 1; i >= 0; i--) {
-      const r = Math.floor(Math.random() * i);
-      swap(i, r);
-  }
-  
-  return nums;
-};
-
 /** 
-* Your Solution object will be instantiated and called as such:
-* var obj = new Solution(nums)
-* var param_1 = obj.reset()
-* var param_2 = obj.shuffle()
-*/
+ * Your Solution object will be instantiated and called as such:
+ * var obj = new Solution(nums)
+ * var param_1 = obj.reset()
+ * var param_2 = obj.shuffle()
+ */

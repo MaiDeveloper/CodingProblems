@@ -29,6 +29,59 @@
  * @return {number[]}
  */
 var rearrangeBarcodes = function(barcodes) {
+  const nums = {};
+  const list = [];
+  
+  for (let i = 0; i < barcodes.length; i++) {
+    const num = barcodes[i];
+    
+    nums[num] = (nums[num] || 0) + 1;
+  }
+  
+  for (let num in nums) {
+    list.push({
+      num: parseInt(num),
+      count: nums[num],
+    });
+  }
+  
+  list.sort((a, b) => b.count - a.count);
+  
+  const result = [];
+  
+  while (list.length) {
+    const num1 = list[0].num;
+    
+    result.push(num1);
+    list[0].count--;
+    
+    if (list.length > 1) {
+      const num2 = list[1].num;
+      
+      result.push(num2);
+      list[1].count--;
+      
+      if (list[1].count === 0) {
+        list.splice(1, 1);
+      }
+    }
+    
+    if (list[0].count === 0) {
+      list.splice(0, 1);
+    }
+    
+    list.sort((a, b) => b.count - a.count);
+  }
+  
+  return result;
+};
+
+
+/**
+ * @param {number[]} barcodes
+ * @return {number[]}
+ */
+var rearrangeBarcodes = function(barcodes) {
   const nums = new Map();
   const heap = new MinHeap();
   const result = [];
