@@ -21,7 +21,7 @@
     "@babel/preset-env": "^7.10.2",
     "@babel/register": "^7.10.1",
     "chai": "^4.2.0",
-    "mocha": "^6.2.3"
+    "mocha": "^10.2.0"
   },
   "devDependencies": {
     "@babel/node": "^7.10.1",
